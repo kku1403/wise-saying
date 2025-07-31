@@ -3,7 +3,6 @@ package domain.wiseSaying.controller;
 import domain.Rq;
 import domain.wiseSaying.entity.WiseSaying;
 import domain.wiseSaying.service.WiseSayingService;
-import domain.Rq;
 
 import java.util.List;
 import java.util.Scanner;
@@ -39,8 +38,11 @@ public class WiseSayingController {
     }
 
     //목록
-    public void list() {
-        List<WiseSaying> list = service.getList();
+    public void list(Rq rq) {
+        String keywordType = rq.getParam("keywordType", "").trim();
+        String keyword = rq.getParam("keyword", "").trim();
+
+        List<WiseSaying> list = service.getList(keywordType, keyword);
         String result = list.stream()
                 .map(WiseSaying::toListFormat)
                 .collect(Collectors.joining("\n"));
@@ -50,7 +52,7 @@ public class WiseSayingController {
     }
 
     //삭제
-    public void delete(domain.Rq rq) {
+    public void delete(Rq rq) {
         int id = rq.getParamAsInt("id", -1);
         if(id == -1) {
             System.out.println("다시 입력해주세요.");
@@ -64,7 +66,7 @@ public class WiseSayingController {
     }
 
     //수정
-    public void update(domain.Rq rq) {
+    public void update(Rq rq) {
         int id = rq.getParamAsInt("id", -1);
         if (id == -1) {
             System.out.println("id를 확인해주세요.");

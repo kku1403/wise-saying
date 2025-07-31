@@ -26,8 +26,8 @@ public class WiseSayingService {
         return repo.delete(id);
     }
 
-    public List<WiseSaying> getList() {
-        return repo.getList();
+    public List<WiseSaying> getList(String keywordType, String keyword) {
+        return repo.getList(keywordType, keyword);
     }
 
     public void update(int id, String newAuthor, String newContent) {

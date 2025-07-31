@@ -43,7 +43,7 @@ public class App {
                     wiseSayingController.register();
                     break;
                 case "목록" :
-                    wiseSayingController.list();
+                    wiseSayingController.list(rq);
                     break;
                 case "삭제" :
                     wiseSayingController.delete(rq);

@@ -8,7 +8,7 @@ public interface WiseSayingRepository {
     int save(String author, String content);
     boolean delete(int id);
     void update(int id, String author, String content);
-    List<WiseSaying> getList();
+    List<WiseSaying> getList(String keywordType, String keyword);
 
     WiseSaying findById(int id);
 

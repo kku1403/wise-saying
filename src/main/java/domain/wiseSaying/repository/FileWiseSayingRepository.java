@@ -4,6 +4,7 @@ import domain.wiseSaying.entity.WiseSaying;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 역할 : 데이터의 조회/수정/삭제/생성을 담당
@@ -60,8 +61,25 @@ public class FileWiseSayingRepository implements WiseSayingRepository{
     }
 
     @Override
-    public List<WiseSaying> getList() {
-        return new ArrayList<>(map.values());
+    public List<WiseSaying> getList(String keywordType, String keyword) {
+
+        //전체 목록 조회
+        if(keyword == null || keyword.isEmpty()) {
+            return new ArrayList<>(map.values());
+        }
+
+        //검색 결과 반환
+        return map.values().stream()
+                .filter(ws -> {
+                    if("content".equalsIgnoreCase(keywordType)) {
+                        return ws.getContent().contains(keyword);
+                    }
+                    else if("author".equalsIgnoreCase(keywordType)) {
+                        return ws.getAuthor().contains(keyword);
+                    }
+                    return false;
+                })
+                .collect(Collectors.toList());
     }
 
     @Override
