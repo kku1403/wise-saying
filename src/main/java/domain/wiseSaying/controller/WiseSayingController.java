@@ -74,18 +74,6 @@ public class WiseSayingController {
         System.out.println("----------------------");
         System.out.printf("페이지 : %d / %d\n", page, totalPages);
     }
-//    public void list(Rq rq) {
-//        String keywordType = rq.getParam("keywordType", "").trim();
-//        String keyword = rq.getParam("keyword", "").trim();
-//
-//        List<WiseSaying> list = service.getList(keywordType, keyword);
-//        String result = list.stream()
-//                .map(WiseSaying::toListFormat)
-//                .collect(Collectors.joining("\n"));
-//
-//        //출력
-//        System.out.println(result);
-//    }
 
     //삭제
     public void delete(Rq rq) {

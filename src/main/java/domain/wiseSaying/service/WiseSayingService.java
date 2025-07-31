@@ -1,6 +1,7 @@
 package domain.wiseSaying.service;
 
 import domain.wiseSaying.entity.WiseSaying;
+import domain.wiseSaying.repository.DBWiseSayingRepository;
 import domain.wiseSaying.repository.FileWiseSayingRepository;
 import domain.wiseSaying.repository.WiseSayingRepository;
 
@@ -17,7 +18,7 @@ public class WiseSayingService {
     private final int limit = 5;
 
     public WiseSayingService() {
-        this.repo = new FileWiseSayingRepository();
+        this.repo = new DBWiseSayingRepository();
     }
 
     public int register(String author, String content) {
