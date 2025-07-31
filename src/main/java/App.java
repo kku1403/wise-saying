@@ -1,3 +1,4 @@
+import domain.Rq;
 import domain.system.controller.SystemController;
 import domain.wiseSaying.controller.WiseSayingController;
 
@@ -25,11 +26,12 @@ public class App {
         while(true) {
             //명령 입력
             System.out.print("명령) ");
-            String[] input = sc.nextLine().trim().split("\\?id=");
-            String command = input[0];
+            String input = sc.nextLine().trim();
+
+            Rq rq = new Rq(input);
+            String command = rq.getActionName();
 
             //시스템 명령
-            //명령 == 종료
             if(command.equals("종료")) {
                 systemController.exit();
                 break;
@@ -44,10 +46,10 @@ public class App {
                     wiseSayingController.list();
                     break;
                 case "삭제" :
-                    wiseSayingController.delete(input);
+                    wiseSayingController.delete(rq);
                     break;
                 case "수정" :
-                    wiseSayingController.update(input);
+                    wiseSayingController.update(rq);
                     break;
                 case "빌드" :
                     wiseSayingController.build();
@@ -55,47 +57,6 @@ public class App {
                 default :
                     System.out.println("다시 입력해주세요.");
             }
-//            //명령 == 등록
-//            else if(command.equals("등록")) {
-//                handleRegister();
-//            }
-//
-//            //명령 == 목록
-//            else if(command.equals("목록")) {
-//                handleList();
-//            }
-//
-//            //명령 == 삭제
-//            else if(command.equals("삭제")) {
-//                try {
-//                    int targetId = Integer.parseInt(input[1]);
-//                    handleDelete(targetId);
-//                }
-//                catch(Exception e){
-//                    System.out.println("다시 입력해주세요.");
-//                }
-//            }
-//
-//            //명령 == 수정
-//            else if(command.equals("수정")) {
-//                try {
-//                    int targetId = Integer.parseInt(input[1]);
-//                    handleUpdate(targetId);
-//                }
-//                catch(Exception e){
-//                    System.out.println("다시 입력해주세요.");
-//                }
-//            }
-//
-//            //명령 == 빌드
-//            else if(command.equals("빌드")) {
-//                repo.buildJsonFile();
-//            }
-//
-//            //그 외
-//            else {
-//                System.out.println("다시 입력해주세요.");
-//            }
         }
     }
 }

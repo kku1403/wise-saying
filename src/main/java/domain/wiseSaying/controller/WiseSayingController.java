@@ -1,7 +1,9 @@
 package domain.wiseSaying.controller;
 
+import domain.Rq;
 import domain.wiseSaying.entity.WiseSaying;
 import domain.wiseSaying.service.WiseSayingService;
+import domain.Rq;
 
 import java.util.List;
 import java.util.Scanner;
@@ -48,39 +50,42 @@ public class WiseSayingController {
     }
 
     //삭제
-    public void delete(String[] input) {
-        try {
-            int id = Integer.parseInt(input[1]);
-            if (service.delete(id)) System.out.printf("%d번 명언이 삭제되었습니다.\n", id);
-            else System.out.printf("%d번 명언은 존재하지 않습니다.\n", id);
-        } catch (Exception e) {
+    public void delete(domain.Rq rq) {
+        int id = rq.getParamAsInt("id", -1);
+        if(id == -1) {
             System.out.println("다시 입력해주세요.");
+            return;
+        }
+        if(service.delete(id)) {
+            System.out.printf("%d번 명언이 삭제되었습니다.\n", id);
+        } else {
+            System.out.printf("%d번 명언은 존재하지 않습니다.\n", id);
         }
     }
 
     //수정
-    public void update(String[] input) {
-        try {
-            int id = Integer.parseInt(input[1]);
-            WiseSaying target = service.findById(id);
-
-            if (target == null) {
-                System.out.printf("%d번 명언은 존재하지 않습니다.\n", id);
-                return;
-            }
-
-            System.out.printf("명언(기존) : %s\n", target.getContent());
-            System.out.print("명언 : ");
-            String newContent = sc.nextLine();
-
-            System.out.printf("작가(기존) : %s\n", target.getAuthor());
-            System.out.print("작가 : ");
-            String newAuthor = sc.nextLine();
-
-            service.update(id, newAuthor, newContent);
-        } catch (Exception e) {
-            System.out.println("다시 입력해주세요.");
+    public void update(domain.Rq rq) {
+        int id = rq.getParamAsInt("id", -1);
+        if (id == -1) {
+            System.out.println("id를 확인해주세요.");
+            return;
         }
+
+        WiseSaying target = service.findById(id);
+        if (target == null) {
+            System.out.printf("%d번 명언은 존재하지 않습니다.\n", id);
+            return;
+        }
+
+        System.out.printf("명언(기존) : %s\n", target.getContent());
+        System.out.print("명언 : ");
+        String newContent = sc.nextLine();
+
+        System.out.printf("작가(기존) : %s\n", target.getAuthor());
+        System.out.print("작가 : ");
+        String newAuthor = sc.nextLine();
+
+        service.update(id, newAuthor, newContent);
     }
 
     //빌드
