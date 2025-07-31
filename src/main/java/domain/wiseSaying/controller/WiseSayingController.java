@@ -21,6 +21,12 @@ public class WiseSayingController {
         this.sc = sc;
         this.service = new WiseSayingService();
     }
+
+    //샘플 데이터 생성
+    public void generateSampleDataIfEmpty() {
+        service.generateSampleDataIfEmpty();
+    }
+
     //등록
     public void register() {
         //명언 입력
@@ -40,16 +46,46 @@ public class WiseSayingController {
     //목록
     public void list(Rq rq) {
         String keywordType = rq.getParam("keywordType", "").trim();
-        String keyword = rq.getParam("keyword", "").trim();
+        if (keywordType.isEmpty()) {
+            keywordType = null;
+        }
 
-        List<WiseSaying> list = service.getList(keywordType, keyword);
+        String keyword = rq.getParam("keyword", "").trim();
+        if (keyword.isEmpty()) {
+            keyword = null;
+        }
+
+        int page = rq.getParamAsInt("page", 1);
+
+        List<WiseSaying> list = service.getPagedList(page, keywordType, keyword);
+        int totalPages = service.getTotalPages(keywordType, keyword);
+
+        if (list.isEmpty()) {
+            System.out.println("조회할 명언이 없습니다.");
+            return;
+        }
+
+        System.out.println("번호 / 작가 / 명언");
+        System.out.println("----------------------");
         String result = list.stream()
                 .map(WiseSaying::toListFormat)
                 .collect(Collectors.joining("\n"));
-
-        //출력
         System.out.println(result);
+        System.out.println("----------------------");
+        System.out.printf("페이지 : %d / %d\n", page, totalPages);
     }
+//    public void list(Rq rq) {
+//        String keywordType = rq.getParam("keywordType", "").trim();
+//        String keyword = rq.getParam("keyword", "").trim();
+//
+//        List<WiseSaying> list = service.getList(keywordType, keyword);
+//        String result = list.stream()
+//                .map(WiseSaying::toListFormat)
+//                .collect(Collectors.joining("\n"));
+//
+//        //출력
+//        System.out.println(result);
+//    }
 
     //삭제
     public void delete(Rq rq) {

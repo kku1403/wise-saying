@@ -20,6 +20,7 @@ public class App {
         this.systemController = new SystemController();
     }
     public void run() {
+        wiseSayingController.generateSampleDataIfEmpty();
 
         System.out.println("== 명언 앱 ==");
 

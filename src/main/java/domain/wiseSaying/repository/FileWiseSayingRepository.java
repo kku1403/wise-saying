@@ -71,7 +71,10 @@ public class FileWiseSayingRepository implements WiseSayingRepository{
         //검색 결과 반환
         return map.values().stream()
                 .filter(ws -> {
-                    if("content".equalsIgnoreCase(keywordType)) {
+                    if (keywordType == null || keywordType.isEmpty()) {
+                        return ws.getContent().contains(keyword) || ws.getAuthor().contains(keyword);
+                    }
+                    else if("content".equalsIgnoreCase(keywordType)) {
                         return ws.getContent().contains(keyword);
                     }
                     else if("author".equalsIgnoreCase(keywordType)) {
